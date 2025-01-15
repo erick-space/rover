@@ -1,0 +1,44 @@
+Erickson
+
+  Vivado design logging file.
+  
+1-8-25
+------
+
+  VCK190 kit comes with one year licence voucher. Unwise to use it now.
+  Moved away from VCK190. Will target a cheaper dev kit for intial design and then migrate
+  to VCK190 if a versal specific feature is required.
+  
+  Target kit: Trenz TE0802 board - its free, portable and I have one.
+
+
+1-9-25
+------
+  
+  Create vivado design - v0.0.0
+  
+    - Download vivado design files.
+    - Copy board files to xilinx vivado boards dir
+      sudo cp -R /<extracted directory>/test_board/board_files/* /tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/
+    -
+
+ 
+01-15-25
+-------
+  
+  Create vivado design - v0.0.0
+    
+    - Create vivado design with zynq processor configuration from trenz reference design
+    - bd.tcl generated to automate block design
+    
+    
+     
+
+------------------------------------------------
+
+Version
+MAJOR.MINOR.PATCH
+
+MAJOR: Incompatible API changes or significant feature overhauls.
+MINOR: Backward-compatible feature additions or enhancements.
+PATCH: Backward-compatible bug fixes or performance improvements.

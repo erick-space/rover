@@ -1,0 +1,31 @@
+ 1. Operating System
+    Build a custom Linux distribution for the Zynq UltraScale+ MPSoC on the TE0802.
+ 2. ROS2 - Middleware
+    Configure environment and necessary packages.
+ 3. Drivers and SDKs
+   Vision Sensor SDKs
+     Intel RealSense SDK 2.0 or ZED SDK.
+   LiDAR Sensor Drivers
+     ROS packages for RPLIDAR.
+   Motor Controller Drivers
+     ROS control or custom drivers if needed.
+ 4. Vision Algorithms
+   Obstacle Detection
+     Use depth data for identifying obstacles; apply filtering and segmentation.
+   SLAM (Simultaneous Localization and Mapping)
+     rtabmap_ros or cartographer_ros.
+   Object Recognition (Future)
+     Potentially utilize hardware acceleration on the TE0802’s FPGA fabric or upgrade to VCK190 if advanced AI is needed.
+ 5. Navigation Algorithms
+    Path Planning: A* or Dijkstra for global planning.
+    Local Obstacle Avoidance: DWA, TEB, or other ROS local planners.
+ 6. Control Systems
+    Motion Control
+      PID control for precise actuator movements.
+    Feedback Systems
+      Use encoder data and IMU readings in closed-loop control.
+ 7. User Interface
+   Monitoring Dashboard
+     Use RViz, rqt, or custom GUIs.
+   Remote Control Interface
+     Teleoperation packages or web-based tools.
