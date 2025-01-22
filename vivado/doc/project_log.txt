@@ -42,3 +42,16 @@ MAJOR.MINOR.PATCH
 MAJOR: Incompatible API changes or significant feature overhauls.
 MINOR: Backward-compatible feature additions or enhancements.
 PATCH: Backward-compatible bug fixes or performance improvements.
+
+
+------------------------------------------------
+Install cable drivers:
+
+<Vivado Install>/data/xicom/cable_drivers/lin64/install_script/install_drivers/
+
+sudo ./install_drivers
+
+sudo adduser $USER dialout
+
+
+
