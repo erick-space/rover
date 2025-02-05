@@ -1,0 +1,33 @@
+Erickson 
+
+  Record linux development 
+
+01-28-25
+--------
+
+  Create linux project 
+    
+    petalinux-create project --template zynqMP -n trenz
+    petalinux-config --get-hw-description ../../
+      image Packaging Configuration --> Root filesystem type --> select EXT (SD/eMMC/QSPI/SATA/USB)
+    petalinux-config -c kernel
+      DeviceDrivers --> NVME Support --> enable NVM Express block device and NVMe Target Support
+    petalinux-build -c kernel
+    Device Tree:
+      cp ../../../system-user.dtsi ./project-spec/meta-user/recipes-bsp/device-tree/files/
+      
+
+02-04-25
+--------
+ 
+  Connecting to putty
+    
+    1. Run ls -l /dev/tty[SU]* to see the serial devices detected on your machine.
+    2. Open Putty using sudo  connect:
+      /dev/ttyUSB1 
+      115200
+
+  Load u-boot
+    created uboot.tcl
+    
+
