@@ -30,4 +30,40 @@ Erickson
   Load u-boot
     created uboot.tcl
     
+02-06-25
+--------
 
+  Load u-boot
+    
+    Using device treee from this repo: https://github.com/e-phantom/linux-on-te0802
+
+02-11-25
+--------
+
+  Load u-boot
+  
+    Uboot fails to load when source uboot.tcl file. 
+    Uboot runs if I manually enter commands in this tutorial
+    https://medium.com/@caglayandokme/jtag-booting-an-embedded-linux-image-on-zynq-ultrascale-c8de1733763e
+  
+    This means there is something wrong with uboot.tcl file.
+  
+    Fixed uboot.tcl by adding "con" after loading pmufw.elf
+    
+  
+  Next load linux using minimal image configuration
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  
+  
+  
