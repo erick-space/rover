@@ -2,6 +2,15 @@ Erickson
 
   Record linux development 
 
+
+Timeless
+--------
+
+  JTAG select 
+    jtag targets 1    
+    jtag frequency -list
+    jtag frequency 30000000
+    
 01-28-25
 --------
 
@@ -54,11 +63,82 @@ Erickson
   Next load linux using minimal image configuration
     
     
+03-04-25
+--------   
+
+  Load Linux Kernel
+  
+    Create INITRAMFS image (image.ub)
+      petalinux-config
+      1. filesystem type --> INITRAMFS
+      2. image name --> petalinux-image-minimal
+      
+    Increase CONFIG_SYS_BOOTM_LeN in platform-top.h
+    File location: project-spec/meta-user/recipes-bsp/u-boot/files
     
+      #if defined(CONFIG_ARCH_ZYNQMP)
+      #include <configs/xilinx_zynqmp.h>
+      #define CONFIG_SYS_BOOTM_LEN 0xF000000  -------- Added this line
     
+
+03-08-2025
+----------
+
+  Load Linux kernel (Jtag)
+    1. source ./uboot.tcl
+    2. stop 
+    3. dow -data "./trenz/images/linux/image.ub"  0x10000000
     
+    booted scuccessfully! Took 70 min tho. too long
     
+03-10-2025
+----------
+
+  SD boot
+   
+    Package the boot binary image for it including the 
+      MPSoC first stage bootloader (FSBL), 
+      FPGA bitsteam, and 
+      Linux second stage bootloader (u-boot):
+     
+      petalinux-package --boot --fsbl ./images/linux/zynqmp_fsbl.elf --fpga ./images/linux/system.bit --u-boot
+     
+   
+    Connected usb to vmware through an USB adpter. 
+      First select USB 3.1 under USB controller in VM setting
+   
+    Format SD: Can use GParted
+   
+    Copy boot files to rootfs to 
+     call lsblk to check mounted files
+     sudo cp ./images/linux/BOOT.BIN /media/er/BOOT
+     sudo cp ./images/linux/image.ub /media/er/BOOT
+     sudo cp ./images/linux/system.dtb /media/er/BOOT
+     sudo cp ./images/linux/boot.scr /media/er/BOOT
+     
+     
+     sudo tar xvf ./images/linux/rootfs.tar.gz -C /media/er/root/
     
+   
+3-17-2025
+---------
+
+  SD boot
+  
+    SD boot failed.
+      
+      This command generates an error towards the end
+      sudo tar xvf ./images/linux/rootfs.tar.gz -C /media/er/root/
+      
+      Re-format the card. Set the maximum capacity for the root
+      
+      booted scuccessfully! 
+      
+   
+
+
+
+
     
     
     
