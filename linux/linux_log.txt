@@ -1,0 +1,150 @@
+Erickson 
+
+  Record linux development 
+
+
+Timeless
+--------
+
+  JTAG select 
+    jtag targets 1    
+    jtag frequency -list
+    jtag frequency 30000000
+    
+01-28-25
+--------
+
+  Create linux project 
+    
+    petalinux-create project --template zynqMP -n trenz
+    petalinux-config --get-hw-description ../../
+      image Packaging Configuration --> Root filesystem type --> select EXT (SD/eMMC/QSPI/SATA/USB)
+    petalinux-config -c kernel
+      DeviceDrivers --> NVME Support --> enable NVM Express block device and NVMe Target Support
+    petalinux-build -c kernel
+    Device Tree:
+      cp ../../../system-user.dtsi ./project-spec/meta-user/recipes-bsp/device-tree/files/
+      
+
+02-04-25
+--------
+ 
+  Connecting to putty
+    
+    1. Run ls -l /dev/tty[SU]* to see the serial devices detected on your machine.
+    2. Open Putty using sudo  connect:
+      /dev/ttyUSB1 
+      115200
+
+  Load u-boot
+    created uboot.tcl
+    
+02-06-25
+--------
+
+  Load u-boot
+    
+    Using device treee from this repo: https://github.com/e-phantom/linux-on-te0802
+
+02-11-25
+--------
+
+  Load u-boot
+  
+    Uboot fails to load when source uboot.tcl file. 
+    Uboot runs if I manually enter commands in this tutorial
+    https://medium.com/@caglayandokme/jtag-booting-an-embedded-linux-image-on-zynq-ultrascale-c8de1733763e
+  
+    This means there is something wrong with uboot.tcl file.
+  
+    Fixed uboot.tcl by adding "con" after loading pmufw.elf
+    
+  
+  Next load linux using minimal image configuration
+    
+    
+03-04-25
+--------   
+
+  Load Linux Kernel
+  
+    Create INITRAMFS image (image.ub)
+      petalinux-config
+      1. filesystem type --> INITRAMFS
+      2. image name --> petalinux-image-minimal
+      
+    Increase CONFIG_SYS_BOOTM_LeN in platform-top.h
+    File location: project-spec/meta-user/recipes-bsp/u-boot/files
+    
+      #if defined(CONFIG_ARCH_ZYNQMP)
+      #include <configs/xilinx_zynqmp.h>
+      #define CONFIG_SYS_BOOTM_LEN 0xF000000  -------- Added this line
+    
+
+03-08-2025
+----------
+
+  Load Linux kernel (Jtag)
+    1. source ./uboot.tcl
+    2. stop 
+    3. dow -data "./trenz/images/linux/image.ub"  0x10000000
+    
+    booted scuccessfully! Took 70 min tho. too long
+    
+03-10-2025
+----------
+
+  SD boot
+   
+    Package the boot binary image for it including the 
+      MPSoC first stage bootloader (FSBL), 
+      FPGA bitsteam, and 
+      Linux second stage bootloader (u-boot):
+     
+      petalinux-package --boot --fsbl ./images/linux/zynqmp_fsbl.elf --fpga ./images/linux/system.bit --u-boot
+     
+   
+    Connected usb to vmware through an USB adpter. 
+      First select USB 3.1 under USB controller in VM setting
+   
+    Format SD: Can use GParted
+   
+    Copy boot files to rootfs to 
+     call lsblk to check mounted files
+     sudo cp ./images/linux/BOOT.BIN /media/er/BOOT
+     sudo cp ./images/linux/image.ub /media/er/BOOT
+     sudo cp ./images/linux/system.dtb /media/er/BOOT
+     sudo cp ./images/linux/boot.scr /media/er/BOOT
+     
+     
+     sudo tar xvf ./images/linux/rootfs.tar.gz -C /media/er/root/
+    
+   
+3-17-2025
+---------
+
+  SD boot
+  
+    SD boot failed.
+      
+      This command generates an error towards the end
+      sudo tar xvf ./images/linux/rootfs.tar.gz -C /media/er/root/
+      
+      Re-format the card. Set the maximum capacity for the root
+      
+      booted scuccessfully! 
+      
+   
+3-26-2025
+---------
+
+  Create .gitignore file to exclude some of the linux files 
+
+
+    
+    
+    
+    
+  
+  
+  
