@@ -1,6 +1,6 @@
  1. Operating System
     Build a custom Linux distribution for the Zynq UltraScale+ MPSoC on the TE0802.
- 2. ROS2 - Middleware
+ 2. Middleware
     Configure environment and necessary packages.
  3. Drivers and SDKs
    Vision Sensor SDKs

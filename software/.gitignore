@@ -1,0 +1,46 @@
+# Build artifacts
+libzmq/builds/
+libzmq/build/
+install/
+*.o
+*.a
+*.so
+*.so.*
+*.swp
+*.log
+*.tmp
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Backup / temp files
+*~
+*.bak
+*.swp
+*.swo
+*.tmp
+
+# Compiled binaries
+*.elf
+*.bin
+*.out
+*.exe
+
+# SDK or sysroot-specific
+sysroot-stage/
+.sdk/
+*.sdk
+
+# IDE/project-specific
+.vscode/
+.idea/
+*.user
+*.workspace
+*.project
+
+# Python cache (if using Python tooling)
+__pycache__/
+*.pyc
