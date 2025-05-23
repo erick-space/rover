@@ -1,0 +1,1 @@
+/home/er/projects/rover/software/data_logger/install/usr/bin/data_logger

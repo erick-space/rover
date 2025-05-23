@@ -1,0 +1,189 @@
+Erickson 
+
+  Record software development 
+
+
+Timeless
+--------
+
+   Check if services are running
+    systemctl status sensor_publisher
+    systemctl status data_logger
+    
+  View live logs from each service
+    journalctl -u data_logger -f
+
+5-7-2025
+--------
+
+  Middleware
+  
+    Petalinux (or Yocto-based Linux)
+
+    Sensor-specific libraries (librealsense, I2C/SPI tools, etc.)
+
+    Messaging with MQTT or ZeroMQ
+
+    Custom apps in Python/C++ for control and decision logic
+    
+    
+    Middleware Integration Steps on Existing Petalinux System
+    
+      Prepare Your Development Host
+      
+        Install ZeroMQ and MQTT dependencies on the host:
+        
+          sudo apt update
+          sudo apt install libzmq3-dev libczmq-dev libmosquitto-dev mosquitto-clients
+          
+        Install the SDK on Host
+                  
+          petalinux-build --sdk #This generates an sdk.sh installer in images/linux/
+          cd <petalinux_project>/images/linux/
+          chmod +x sdk.sh
+          ./sdk.sh   # this will install petalinux 
+          
+          *petalinux-build command failed after this. Had to discard changes in this branch after installing sdk in 
+          /tools/Xilinx/Petalinux/2024.2/sdk to return to petalinux setting in integration
+          
+          source /tools/Xilinx/Petalinux/2024.2/sdk/environment-setup-cortexa72-cortexa53-xilinx-linux   
+
+        Cross-Compiling ZeroMQ
+        
+          cd libzmq
+          mkdir build && cd build
+          cmake .. \
+          -DCMAKE_INSTALL_PREFIX=$SDKTARGETSYSROOT/usr \
+          -DCMAKE_C_COMPILER=aarch64-xilinx-linux-gcc \
+          -DCMAKE_CXX_COMPILER=aarch64-xilinx-linux-g++ \
+          -DCMAKE_SYSROOT=$SDKTARGETSYSROOT \
+          -DCMAKE_FIND_ROOT_PATH=$SDKTARGETSYSROOT \
+          -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+          -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+          -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+          -DWITH_PERF_TOOL=OFF
+     
+    
+5-12-2025
+---------
+
+  ZMQ Middleware    
+  
+      cross-compile ZeroMQ (libzmq) 
+      1. shell script to cross-compile ZeroMQ (libzmq) for your Trenz board using the PetaLinux SDK
+      2. Save the script as build_libzmq_cross.sh
+      3. Make it executable:
+        chmod +x build_libzmq_cross.sh
+      4. Eun it:
+        ./build_libzmq_cross.sh
+      
+      
+5-12-2025
+---------
+
+  ZMQ Middleware 
+       
+    cross-compile tem app
+      Step 1: Create the Test App
+        Create the file: ~/projects/rover/software/test_zmq/src/test_zmq.cpp
+        Create the file: ~/projects/rover/software/test_zmq/CMakeLists.txt
+      Step 2: Shell Script to Build
+        Create a build script: ~/projects/rover/software/test_zmq/build.sh
+        chmod +x ~/projects/rover/software/test_zmq/build.sh
+      Step 3: Build the App
+        cd ~/projects/rover/software/test_zmq
+        ./build.sh
+      
+    Here's how to deploy your test_zmq application to the Trenz board 
+      
+      Create temp directory on trenz
+        ssh petalinux@192.168.7.2
+        sudo mkdir -p /temp
+      Use scp to Transfer the Binary
+        scp ./install/usr/bin/test_zmq petalinux@192.168.7.2:/temp/
+      Locate the libzmq.so.5 file on your host machine:
+        find ~/projects/rover/ -name "libzmq.so.5*"
+      Copy the .so file to the Trenz board:
+          scp /software/libzmq/sysroot-stage/usr/lib/libzmq.so.5* petalinux@192.168.7.2:/temp/
+      On the Trenz board, move it to a location like /usr/lib or update the LD_LIBRARY_PATH:
+        ssh petalinux@192.168.7.2
+        sudo cp /temp/libzmq.so.5* /usr/lib/
+        sudo ldconfig
+      Run app
+        ssh petalinux@192.168.7.2
+        chmod +x /temp/test_zmq
+        /temp/test_zmq
+        
+5-13-2025
+---------
+    
+  ZMQ Middleware 
+  
+    Create script to automate the transfer and execution of your test_zmq app on the Trenz board. 
+        cd <project_folder>/rover/software/
+        Run deploy_test_zymq: $ ./deploy_test_zymq.sh
+   
+    How to build and deploy test zmq app
+      1. cd <project_folder>/rover/software/
+      2. chmod +x build_libzmq_cross.sh (if not done already)
+      3. ./build_libzmq_cross.sh
+      4. cd <project_folder>/rover/software/test_zmq
+      5. chmod +x build.sh (if not done already)
+      6. ./build.sh
+      7. cd <project_folder>/rover/software/
+      8. Power on trenz board
+      9. chmod +x deploy_test_zymq.sh (if not done already)
+      10. ./deploy_test_zymq.sh
+      
+5-22-2025
+---------
+  
+  ZMQ Middleware
+    
+    Benefits of ZMQ Middleware:
+      Plug-and-play: Add or remove components without breaking others.
+      Scalable: Add remote control, new algorithms, or simulators easily.
+      Debuggable: Attach a host listener to any ZMQ socket for monitoring.
+      Offline-capable: Board logic runs without the host present.
+    
+   software/zmq directory contains practical example of how you can organize multiple ZeroMQ-based 
+   modules running on your Trenz board, to build a flexible, testable, and expandable system
+   
+      software/zmq/
+      ├── zmq_common/              # Shared code (e.g., message structs, utilities)
+      ├── sensor_publisher/
+      │   ├── src/
+      │   ├── CMakeLists.txt
+      │   └── build.sh
+      ├── data_logger/
+      ├── motor_controller/
+      ├── navigation_node/
+         
+    Use systemd services To run your sensor_publisher and data_logger apps automatically at boot.
+    Provided example script to  deploy services to board
+    
+      - Transfers your built binaries (sensor_publisher, data_logger) to the Trenz board
+
+      - Creates systemd .service files and installs them to /etc/systemd/system
+
+      - Enables and starts both services at boot
+
+      - Sets proper executable permissions
+
+      - Cleans up temporary files 
+      
+    How to build apps and deploy to the board. Apps run automatically at boot.
+      1. cd <project_folder>/rover/software/zmq
+      2. chmod +x build_libzmq_cross.sh (if not done already)
+      3. Run ./build_libzmq_cross.sh
+      4. cd <project_folder>/rover/software/<sensor_publisher & data_logger>
+      5. chmod +x build.sh (if not done already)
+      6. ./build.sh
+      7. cd <project_folder>/rover/software/zmq
+      8. Power on trenz board
+      9. chmod +x deploy_service.sh (if not done already)
+      10. Run ./deploy_service.sh
+           
+      
+      
+    

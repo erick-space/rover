@@ -1,0 +1,16 @@
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/pkgconfig/libzmq.pc
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/libzmq.so.5.2.6
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/libzmq.so.5
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/libzmq.so
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/include/zmq.h
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/include/zmq_utils.h
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/libzmq.a
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/include/zmq.h
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/include/zmq_utils.h
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/share/zmq/AUTHORS.txt
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/share/zmq/LICENSE.txt
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/share/zmq/NEWS.txt
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/cmake/ZeroMQ/ZeroMQTargets.cmake
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/cmake/ZeroMQ/ZeroMQTargets-release.cmake
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/cmake/ZeroMQ/ZeroMQConfig.cmake
+/home/er/projects/rover/software/zmq/libzmq/sysroot-stage/usr/lib/cmake/ZeroMQ/ZeroMQConfigVersion.cmake

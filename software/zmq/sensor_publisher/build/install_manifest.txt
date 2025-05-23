@@ -1,0 +1,1 @@
+/home/er/projects/rover/software/zmq/sensor_publisher/install/usr/bin/sensor_publisher
