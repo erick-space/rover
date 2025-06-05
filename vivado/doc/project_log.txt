@@ -31,7 +31,11 @@ Erickson
     - Create vivado design with zynq processor configuration from trenz reference design
     - bd.tcl generated to automate block design
     
-    
+05-25-25
+-------
+
+  Assigned GEN_IPI_7 to the APU in Advanced Configuration Inter Processor Interrupt (IPI)
+  
      
 
 ------------------------------------------------

@@ -184,6 +184,86 @@ Timeless
       9. chmod +x deploy_service.sh (if not done already)
       10. Run ./deploy_service.sh
            
+5-23-2025
+---------
+
+  Real Time OS
+  
+    Step 1:
+      Launch Vitis and Create a Platform Project
+      Enable FreeRTOS/OpenAMP Support
+        Click on the new platform and click + button in the vitis-comp.json tab to Add Domain
+          Name: freertos_r5
+          OS: freertos
+          Processor: psu_cortexr5_0
+        Navigate to the domain BSP settings and select the Libmetal and OpenAMP libraries
+        Build platform
+    STEP 2: Create a FreeRTOS RPU Application with OpenAMP
+      Click on Examples icon in vitis sidebar
+      Click on OpenAMP echo-test
+      Click Create Application Component from Template
+      Failed:
+        WARNING no host to remote IPI channel has been found.
+        INFO  : [INFO]: ------> logged result True for lop lop_0
+        INFO  : OpenAMP Lopper run failed.
+        ERROR : Error in creating Baremetal Application.
+        ERROR : Failed to create component: openamp_echo_test.Error in creating Baremetal Application.
       
       
+5-25-2025
+---------     
+
+  Real Time OS
+    
+    Could not create OpenAMP echo-test because of this error: 
+      
+      ERROR : Failed to create component: openamp_echo_test.Error in creating Baremetal Application.
+              WARNING no host to remote IPI channel has been found.
+    
+      Solution: GEN_IPI_7 needs to be assigned to the APU in Vivado.
+    
+    
+    Create a FreeRTOS RPU Application with OpenAMP in vitis
+      Click on Examples icon in vitis sidebar
+      Click on OpenAMP echo-test
+      Click Create Application Component from Template
+      Build app
+      
+
+6-4-2025
+--------- 
+
+  Real Time OS
+  
+    OpenAMP and RPMsg in linux. Check Petalinux log project log
+    
+    Enable example openAMP (echo and matrix mul) packages in petalinux
+      [*] openamp-fw-echo-testd-> 
+      [*] openamp-fw-mat-muld
+    
+    
+      How to run the Echo Test:
+        Load the Echo test firmware and RPMsg module:
+          echo image_echo_test > /sys/class/remoteproc/remoteproc0/firmware
+          echo start > /sys/class/remoteproc/remoteproc0/state
+
+        Run the test:
+          echo_test
+
+        The test starts.
+
+        Follow the on-screen instructions to complete the test.cAfter you have completed the test, unload the application:
+          echo stop > /sys/class/remoteproc/remoteproc0/state
+    
+    An alternative to enabling openAMP echo test in petalinux, I created openAMP echo test elf file in vitis and deployed 
+    to the board. The openAMP echo test example is easily created in vitis following these steps:
+      Click on Examples icon in vitis sidebar
+      Click on OpenAMP echo-test
+      Click Create Application Component from Template
+      Build app
+      
+    The script deploy_echo_test.sh deploys the elf file to the board and runs the test in remote processor R5. 
+    See deploy_echo_test.sh file for details on how this can be done  
+    
+    
     

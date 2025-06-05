@@ -16,10 +16,10 @@ Timeless
   
   Copy boot files to SD t
      call lsblk to check mounted files
-     sudo cp ./images/linux/BOOT.BIN /media/er/BOOT
-     sudo cp ./images/linux/image.ub /media/er/BOOT
-     sudo cp ./images/linux/system.dtb /media/er/BOOT
-     sudo cp ./images/linux/boot.scr /media/er/BOOT
+     sudo cp ./images/linux/BOOT.BIN /media/er/BOOT1
+     sudo cp ./images/linux/image.ub /media/er/BOOT1
+     sudo cp ./images/linux/system.dtb /media/er/BOOT1
+     sudo cp ./images/linux/boot.scr /media/er/BOOT1
      sudo tar xvf ./images/linux/rootfs.tar.gz -C /media/er/root/  
   
   Login (debug-tweaks is needed for SSH)
@@ -173,15 +173,34 @@ Timeless
 5-13-2025
 ---------
 
-  Enable Serial-autologin-root
+  Enable Serial-autologin-root - (see timeless for instructions)
     
-  Set Static IP
+  Set Static IP - (see timeless for instructions)
 
+5-29-2025
+---------
 
-      
-      
-      
-      
+  Enable the remoteproc driver suppor
+    petalinux-config -c kernel
+      Device Drivers --->
+      Remoteproc drivers --->
+      # for R5:
+      <M> ZynqMP_r5 remoteproc support
+ 
+  Enable example openAMP packges
+    petalinux-config -c rootfs
+      Filesystem Packages --->
+      misc --->
+      openamp-fw-echo-testd --->
+      [*] openamp-fw-echo-testd
+      openamp-fw-mat-muld ---> 
+      [*] openamp-fw-mat-muld
+  
+  Edit the system-user.dtsi file to include the content from openamp.dtsi for your project.
+    
+    openamp.dtsi file directory:
+    /home/er/projects/rover/linux/trenz/components/yocto/layers/meta-xilinx/
+      meta-xilinx-core/dynamic-layers/openamp-layer/recipes-bsp/device-tree/files  
     
 
       
