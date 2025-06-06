@@ -1,3 +1,12 @@
+# Ignore all contents inside /vitis
+vitis/*
+
+# Allow the vitis folder itself to be included in Git
+!vitis/
+
+# Allow only deploy_echo_test.sh
+!vitis/deploy_echo_test.sh
+
 # Build artifacts
 libzmq/builds/
 libzmq/build/
