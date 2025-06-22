@@ -12,6 +12,11 @@ Timeless
     
   View live logs from each service
     journalctl -u data_logger -f
+    
+  Remoteproc
+    confirm it's running on your system: cat /sys/class/remoteproc/remoteproc0/state
+      If it shows running, something is currently active.
+    verify which RPU firmware is loaded: cat /sys/class/remoteproc/remoteproc0/firmware
 
 5-7-2025
 --------
@@ -231,7 +236,7 @@ Timeless
       
 
 6-4-2025
---------- 
+-------- 
 
   Real Time OS
   
@@ -264,6 +269,41 @@ Timeless
       
     The script deploy_echo_test.sh deploys the elf file to the board and runs the test in remote processor R5. 
     See deploy_echo_test.sh file for details on how this can be done  
+    
+
+
+6-6-2025
+-------- 
+
+  End-to-End Test of RPMsg → ZMQ    
+  
+    RPU to APU RPMsg works fine. Zynq to host PC communication over ZeroMQ fails.
+    
+    Debugging zynq to host:
+      Two simple debugging apps are now available in the canvas "Zmq Test Apps":
+      zmq_test_sender.cpp – Runs on the board and sends test messages to tcp://*:5555
+      zmq_test_receiver.cpp – Runs on the host and listens for messages from the board
+      
+      Ran into fatal error: zmq.hpp: No such file or directory
+        means that the C++ ZeroMQ header file (zmq.hpp) is not found in the sysroot or include path during cross-compilation.
+        
+        Get the C++ header (zmq.hpp)
+          download just the header:
+            wget https://raw.githubusercontent.com/zeromq/cppzmq/master/zmq.hpp -P include/
+          Install zmq.hpp to SDK sysroot
+            sudo cp zmq.hpp /tools/Xilinx/Petalinux/2024.2/sdk/sysroots/cortexa72-cortexa53-xilinx-linux/usr/include/
+  
+    
+    Zynq to host PC communication test complete. Follow intrunctions here to run the test:
+      /home/er/projects/rover/software/apps/zynq_test/zeroMQ_test/README.md
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

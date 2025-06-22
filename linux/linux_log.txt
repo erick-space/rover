@@ -203,7 +203,10 @@ Timeless
       meta-xilinx-core/dynamic-layers/openamp-layer/recipes-bsp/device-tree/files  
     
 
-      
+6-12-2025
+---------
+
+  Enabled python3   
       
       
       
