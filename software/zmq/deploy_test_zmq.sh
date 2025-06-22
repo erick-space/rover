@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === Configuration ===
-BOARD_IP=192.168.7.2      # Replace with the actual IP of your Trenz board
+BOARD_IP=192.168.7.2     
 BOARD_USER=root
 APP_NAME=test_zmq
 LOCAL_APP_PATH=$(pwd)/test_zmq/install/usr/bin/$APP_NAME
